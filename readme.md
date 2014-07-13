@@ -7,9 +7,9 @@ available also on
 https://www.npmjs.org/package/govpack
 
 CLI Usage:
-    govpack {fetch:0}
 
-    govpack {filter:0}
+     govpack {fetch:0}
+     govpack {filter:0}
 
 OR from your node code: 
 var GP=require('govpack');
@@ -26,19 +26,21 @@ would all be okay format:'XYZ' (case insensitive) values to try
 but by far CSV is the most popular default.
 
 ###from the command line:
+
      node.exe index.js {filter:1,format:'XLS'}
 
 The ckan dataset catalog endpoints we are fetching from 
 {fetch:0|1|2} etc, can be added to, in the source code:
 
-CK[0]={url:'http://demo.ckan.org/api/3/action/'}
-CK[1]={url:'https://data.qld.gov.au/api/3/action/'}
-CK[2]={url:'https://data.gov.au/api/3/action/'}    
+    CK[0]={url:'http://demo.ckan.org/api/3/action/'}
+    CK[1]={url:'https://data.qld.gov.au/api/3/action/'}
+    CK[2]={url:'https://data.gov.au/api/3/action/'}    
 ####2 is big  and FAILS as a single request 
-// the code has some in progress (incomplete) calls 
-// to fetch it as several pagenated sub requests (todo)
-// also todo is howto make npm drop an sh +govpack.cmd
-// in the common bin folder ??
+
+    // the code has some in progress (incomplete) calls 
+    // to fetch it as several pagenated sub requests (todo)
+    // also todo is howto make npm drop an sh +govpack.cmd
+    // in the common bin folder ??
 
 CK[99]={url:'https://some_CKAN_action_endpoint/'}
 
@@ -46,8 +48,9 @@ you may also call
 
     govpack {download:0|1|2} 
 
-to download the filtered file set from online to disc
-more endpoints/ fixes an addtions are wecolme
+to download the filtered CSV file set from to disc
+
+###more endpoints/ fixes an addtions are wecolme
 
 email to
 govpack@gmail.com
