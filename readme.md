@@ -8,7 +8,7 @@ https://www.npmjs.org/package/govpack
 
 ![image](http://hackerspace.govhack.org/sites/default/files/field/image/Screenshot%20%2812%29.png)
 
-*all YO ndata is belong to us*
+*all YO data is belong to us*
 
 govpack is a tool to help explore all the datasets
 
@@ -16,7 +16,9 @@ govpack is a command line tool that seeks out the metadata
 for ALL available data sets on a given CKAN endpoint, like
 
 0 http://demo.ckan.org/api/3/action/current_package_list_with_resources
+
 1 https://data.qld.gov.au/3/action/
+
 2 https://data.gov.au/api/3/action/
 
 CLI Usage:
