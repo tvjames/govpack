@@ -1,0 +1,26 @@
+{
+  "name": "govpack",
+  "version": "0.0.1",
+  "description": "fetch, filter, CKAN (OpenData CSV resources) as JSONP for use in a sinhgle pahe html apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "{fetch:0}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/govpack/govpack"
+  },
+  "keywords": [
+    "CKAN",
+    "govhack",
+    "opendata",
+    "csv",
+    "nodejs"
+  ],
+  "author": "govpack@gmail.com",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/govpack/govpack/issues"
+  },
+  "homepage": "https://github.com/govpack/govpack"
+}
