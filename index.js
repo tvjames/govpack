@@ -78,6 +78,18 @@ var fp1=DIR+x+'.js' /*module.exports={GetBigList}*/
 var fp2=DIR+x+'.txt' /*Download from data inside IIII(resource_array)*/
 var JS=''
 try{JS=fs.readFileSync(fp2).toString().replace(/^\uFEFF/, '').substr(4)}catch(er){LOG(er.stack);o.d='DownloadMany failed to READ jsonp resource list';o.bad=1;cb(er,o)}
+var A=0;
+try{eval('var A=('+JS+')'}catch(er){LOG(er.stack);o.d='DownloadMany failed to EVAL jsonp resource list';o.bad=1;cb(er,o)}
+if(typeof A!='object'){o.d='DownloadMany failed to extract an ARRAY/LIST/OBJECT';LOG(o.d);o.bad=1;return cb({bad:1,message:o.d},o)}
+if(!A.pop){o.d='DownloadMany failed to extract an ARRAY/LIST';LOG(o.d);o.bad=1;return cb({bad:1,message:o.d},o)}
+
+DoNext()
+function DoNext(){
+var o=A.pop();if(!A.length){return Done(cb)}
+if(!o){return DoNext()}
+if(!o.resources){return DoNext()};B=o.resources;
+}
+
 LOG(JS)
 }
 
