@@ -42,8 +42,9 @@ The ckan dataset catalog endpoints we are fetching from
     // also todo is howto make npm drop an sh +govpack.cmd
     // in the common bin folder ??
 
-CK[99]={url:'https://some_CKAN_action_endpoint/'}
-
+    
+CK[99]={url:'https://some_CKAN_action_endpoint/'} // ie add some more
+  
 you may also call
 
     govpack {download:0|1|2} 
