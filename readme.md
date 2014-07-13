@@ -30,7 +30,7 @@ CK[99]={url:'https://some_CKAN_action_endpoint/'}
 
 also you may want to call
 
-    govpack {download:0|1|2} function 
+    govpack {download:0|1|2} 
 
 to download the filtered file set from online to disc
 
