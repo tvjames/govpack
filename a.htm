@@ -6,9 +6,10 @@ TD{border:1px solid gray;white-space:nowrap;text-align:center;}
 TABLE{border-collapse:collapse}
 .fr{border-style:none;font-size:120%;text-align:left}
 .th{background-color:silver;font-weight:900;font-size:120%}
+.hh{background-color:silver;font-weight:900;font-size:120%}
 .dt{color:white}
 .dl{}
-.up{font-size:140%;text-align:left;background:#dcdcdc;padding-left:10px}
+.up{font-size:140%;text-align:left;background:#ffffcc;padding-left:10px}
 #d3{background:orange;font-size:20pt;padding:4px;border:1px solid black}
 #d4{background:lime;font-size:20pt;padding:4px;border:1px solid black}
 a{width:100%;display:inline-block}
@@ -50,6 +51,11 @@ tb='<table>\n<tr><td class=dl>'
 tb+='<a title="'+o.url+'" href="'+o.url+'" target="_blank" style="">'+fom+' ['+SZ(o.size)+']</a>&nbsp;&nbsp;&nbsp;'
 tb+='</td><td colspan="'+(C.length-1)+'" class=fr ><b>'+o.d+'</b>'
 tb+='</td></tr>'
+
+
+tb+='<tr>';for(var c=1;c<L;c++){tb+='<td class=hh >'+String.fromCharCode(64+c)+'</td>'};tb+='</tr>'
+
+
 tb+='<tr>';for(var c=1;c<L;c++){tb+='<td class=th style="background:'+UC(C[c])+'">'+C[c]+'</td>'};tb+='</tr>'
 tb+='<tr class=dt >';for(var c=1;c<L;c++){tb+='<td style="background:'+UC(T[c])+'">'+T[c]+'</td>'};tb+='</tr>'
 tb+='<tr>';for(var c=1;c<L;c++){tb+='<td>'+R[C[c]]+'</td>'};tb+='</tr>'
