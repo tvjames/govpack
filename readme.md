@@ -1,6 +1,6 @@
 #govpack
 
-###made for govhack qld 2014
+###made for GovHack Brisbane/Qld 2014
 http://hackerspace.govhack.org/content/npm-install-g-govpack-or-github-govpackgovpack
 
 available also on
@@ -27,9 +27,10 @@ CLI Usage:
      govpack {filter:0}
 
 OR from your node code: 
-var GP=require('govpack');
-GP({filter:1,format:'XLS'},function(){console.log('Done!!')})
-//only tested in cli mode  
+
+    var GP=require('govpack');
+    GP({filter:1,format:'XLS'},function(){console.log('Done!!')})
+    //only tested in cli mode  
 
 As an option you may wish to set the filetype for the filter step 
 to filter on someother resource type {filter:0 ,format:'XXX'}
@@ -52,10 +53,10 @@ The ckan dataset catalog endpoints we are fetching from
     CK[2]={url:'https://data.gov.au/api/3/action/'}    
 ####2 is big  and FAILS as a single request 
 
-    // the code has some in progress (incomplete) calls 
-    // to fetch it as several pagenated sub requests (todo)
-    // also todo is howto make npm drop an sh +govpack.cmd
-    // in the common bin folder ??
+     note: the code has some in progress INCOMPLETE :=( calls 
+     to fetch it as several pagenated sub requests (todo)
+     also todo is howto make npm drop an sh +govpack.cmd
+     in the common bin folder ??
 
     
 CK[99]={url:'https://some_CKAN_action_endpoint/'} // ie add some more
@@ -66,7 +67,7 @@ you may also call
 
 to download the filtered CSV file set from to disc
 
-###more endpoints/ fixes an addtions are wecolme
+###more endpoints/ fixes and addtions are wecolme
 
 email to
 govpack@gmail.com
