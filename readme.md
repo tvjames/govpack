@@ -28,7 +28,9 @@ CK[1]={url:'https://data.qld.gov.au/api/3/action/'}
 CK[2]={url:'https://data.gov.au/api/3/action/'}
 CK[99]={url:'https://some_CKAN_action_endpoint/'}
 
-'''TODO
-In the works is a govpack {get:0|1|2} function 
-that will download the filtered files from online.
+also you may want to call
+
+    govpack {download:0|1|2} function 
+
+to download the filtered file set from online to disc
 
