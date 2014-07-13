@@ -22,6 +22,7 @@ var https=require('https');https.globalAgent.maxSockets=500
 var path=require('path');
 var cp=require('child_process');
 var DIR=(__dirname+'/').replace(/\x5c/g,'/')
+var DIS=DIR+'CSV/' /*Changed according to {format:'XYZ'}*/
 var FORMAT='csv';var FOM='CSV';var fom='csv' 
 /*FORMAT updated by init() from {format:'XXX'} user options, the default is format:'csv' 
 you may wish to specify a different resource filetype to filter on,for instance:
@@ -44,12 +45,17 @@ if(ar.charAt(0)=='{'){
 try{eval('var o2=('+ar+')')}catch(er){LOG(er.message);OK=false};
 if(typeof o2=='object'){for(var p in o2){o3[p]=o2[p]}}
 }
-LOG('All YO! format:\''+FOM+'\'\nOR {format:\'xlsx|ckml|rdf|odp|dat|etc\'}\n    iS Belong to US!!....')
+LOG('govpack is seeking out '+FOM+' dataset metadata')
+LOG('from any of a number of CKAN API\'s eg "node index.js {fetch:1}" "index.js {fetch:2}"')
+LOG('CKAN package_list_with_resources API endpoints')
+LOG('Use from the Command Line or as one of your npm node_modules.')
+LOG('Use in order: govpack {fetch:1}, then govpack {filter:1}, then govpack {download:1} ')
+LOG('Optional {filter:1, format:\'xlsx|ckml|rdf|odp|dat|etc\'} to change what to filter on')
 if(OK){init(o3)}else{LOG('Fix json command line argument and retry');process.exit()}
 }
-else{/*Use as a module:*/
-module.exports=init 
+else{module.exports=init
 /***********************************************
+* Use as a module:                             *
 * Usage:                                       *
 *  GP=require('govpack')                       *
 *  GP({fetch:1,filter:1,format:'xls'})         *
@@ -57,59 +63,80 @@ module.exports=init
 }
 
 function LOG(x){console.log(x)}
+
 function init(o,cb){/*The One and Only function exported and required. Calls out to internal functions based on settings in o*/
-cb=cb||function(){};x=parseInt(o.get||o.fetch||o.filter);
+cb=cb||function(){};
+var x=parseInt(o.download)
+if(isNaN(x)){x=parseInt(o.fetch)}
+if(isNaN(x)){x=parseInt(o.filter)}
+
 if(!CK[x]){return LOG('We dont have API #'+x+' OBJECT please add it to CK['+x+']={url:\'CKAN_API_ACTION_ENDPOINT\'} on index.js\nOr use [0|1|2] and retry')}
 if(!CK[x].url){return LOG('We dont have API #'+x+' URL please add it to CK['+x+']={url:\'CKAN_API_ACTION_ENDPOINT\'} on index.js\nOr use [0|1|2] and retry')}
 if(o.silent){LOG=function(){} /*turn terminal chatter off*/}
 if(o.format){FORMAT=o.format.toString().toLowerCase()}
 FOM=FORMAT.toUpperCase()
+DIS=DIR+FOM+'/'
 fom=FOM.toLowerCase()
 var fp1=DIR+x+'.js' /*module.exports={GetBigList}*/
 var fp2=DIR+x+'.txt' /*Our refined list of IIII(jsonp)*/
-if(typeof o.get=='number'){LOG('Given {fetch:'+x+'} and {filter:'+x+'} saved a local vaild JSONP list at '+fp2+'\n\tcheck it out.The above file should be good for use inside any Browser based App\n\tCross Domain, Mobile or Desktop, Online or Offline, via file: OR http: protocols\nWe will now proceed to download '+FOM+' resources from online.\nResources '+DIR+FOM+'/1,2,3,4.'+FOM.toLowerCase()+', etc will be saved to match the numeric Array index in\n<script src="'+fp2+'"></script>\nAs recieved on an html page via function GOVH(A){/*Got resource_list */}\nSo after downloading we will have the metadata and the DATA!!');DownloadMany(o,cb);return}
+if(typeof o.download=='number'){LOG('Given {fetch:'+x+'} and {filter:'+x+'} MADE an EXISTING local vaild JSONP list at '+fp2+'\n\tcheck it out.The above file should be good for use inside any Browser based App\n\tCross Domain, Mobile or Desktop, Online or Offline, via file: OR http: protocols\nWe will now proceed to download '+FOM+' resources from online.\nResources '+DIR+FOM+'/1,2,3,4.'+FOM.toLowerCase()+', etc will be saved to match the numeric Array index in\n<script src="'+fp2+'"></script>\nAs surfaced on an html page via a JSONP reciever function IIII(resource_list ){/*Got resource_list */}\nAfter downloading we should have the metadata and the DATA!!');DownloadMany(o,cb);return}
 if(typeof o.fetch=='number' && typeof o.filter=='number'){LOG('Please be patient while we fetch AND filter from API#'+o.fetch);GetBigList(o.fetch, (function(x,cb){return function(){ScanList(x,cb)}}(o.filter,cb)) );return}
 if(typeof o.fetch=='number'){LOG('Please be patient while we fetch from API#'+o.fetch);GetBigList(o.fetch,cb);return}
 if(typeof o.filter=='number'){LOG('Now we will filter and refine the Big DataSet List @'+(DIR+x+'.js')+'\n~(hopefully that\'s in place OR RUN govpack {fetch:'+o.filter+'} to put it there)\nFiltering for on datasets/resources where format='+FOM+'\nAnd using a datastore_search query on API#'+o.filter+'\n'+CK[o.filter].url+'api/action/datastore_search?resource_id=###\nto get the size, description, field names, data types, row count, and the first row of actual data!!');ScanList(o.filter,cb);return}
 }
 
-function DownloadMany(o,cb){var x=o.get
+function DownloadMany(o,cb){var x=o.download
 var fp1=DIR+x+'.js' /*module.exports={GetBigList}*/
 var fp2=DIR+x+'.txt' /*Download from data inside IIII(resource_array)*/
 var JS=''
+if(!fs.existsSync(DIS)){try{fs.mkdirSync(DIS)}catch(er){LOG('Failed to make '+DIS);return cb(er,o)}}
+if(!fs.existsSync(DIS)){LOG('Failed to find '+DIS);return cb(er,o)}
+
+
 try{JS=fs.readFileSync(fp2).toString().replace(/^\uFEFF/, '').substr(4)}catch(er){LOG(er.stack);o.d='DownloadMany failed to READ jsonp resource list';o.bad=1;cb(er,o)}
 var A=0;
-try{eval('var A=('+JS+')'}catch(er){LOG(er.stack);o.d='DownloadMany failed to EVAL jsonp resource list';o.bad=1;cb(er,o)}
+try{eval('var A=('+JS+')')}catch(er){LOG(er.stack);o.d='DownloadMany failed to EVAL jsonp resource list';o.bad=1;cb(er,o)}
 if(typeof A!='object'){o.d='DownloadMany failed to extract an ARRAY/LIST/OBJECT';LOG(o.d);o.bad=1;return cb({bad:1,message:o.d},o)}
 if(!A.pop){o.d='DownloadMany failed to extract an ARRAY/LIST';LOG(o.d);o.bad=1;return cb({bad:1,message:o.d},o)}
-
+LOG('Downloading and Saving to...\n '+DIS)
 DoNext()
-function DoNext(){
-var o=A.pop();if(!A.length){return Done(cb)}
+function DoNext(er,size){
+var o=A.pop();if(!A.length){/*A[1] should be the last, A[0] has title info only*/return Done(cb)}
 if(!o){return DoNext()}
-if(!o.resources){return DoNext()};B=o.resources;
+if(!o.url){return DoNext()};
+var URL=o.url
+var fn=A.length
+//done below try{var me=fs.statSync(DIS+(fn-1)+'.'+fom);LOG('\t'+j.k(me.size))}catch(er){}
+
+LOG('#'+fn+'. '+o.url)
+var FP=DIS+fn+'.'+fom
+LOG('#'+fn+'. '+FP)
+DownloadOne(URL,FP,DoNext)
 }
 
-LOG(JS)
+function Done(cb){LOG('Finished downloading '+FOM+' files.\nCheck folder for results.\n'+DIS)}
+
 }
 
 function DownloadOne(URL,FP,cb){
 var file=fs.createWriteStream(FP)
-var web=(url.charAt(4)=='s'?https:http)
+var web=(URL.charAt(4)=='s'?https:http)
 web.get(URL,function(R){R.pipe(file);
 file.on('finish',function(){file.close();
-fs.stat(FP,function(er,me){if(er){LOG(er.stack);return cb(-1)}LOG('Saved ['+me.size+'bytes] '+FP+' from '+URL);cb(me.size)})
+fs.stat(FP,function(er,me){if(er){LOG(er.stack);return cb(er)}LOG('\t\t['+j.k(me.size)+'] now in '+FP+' from '+URL+'\n\n');cb(null,me.size)})
 })}
 )
 }
 
 
 function GetBigList(x,cb){cb=cb||function(){}
+//if(x==2){return GetManyLists(x,cb)}
 var url=CK[x].url+'current_package_list_with_resources'
+if(x==2){url+='?limit=10&page=1'}
 var web=(url.charAt(4)=='s'?https:http)
 var fp=DIR+x+'.js'
-  LOG('Downloading=='+url)
-  LOG('SavingAs====='+fp)
+  LOG('Downloading:\n'+url)
+  LOG('SavingAs:\n'+fp)
 web.get(url
 ,function(R){
 var data='module.exports=';
@@ -122,9 +149,43 @@ cb(null,{d:'GetBigList Saved package list!',fp:fp} )
 })
 }
 
+function GetBiggerList(x,cb){cb=cb||function(){}
+
+//TODO
+//if(x==2){return GetManyLists(x,cb)}
+var url=CK[x].url+'current_package_list_with_resources'
+if(x==2){url+='?limit=10&page=1'}
+var web=(url.charAt(4)=='s'?https:http)
+var fp=DIR+x+'.js'
+  LOG('Downloading:\n'+url)
+  LOG('SavingAs:\n'+fp)
+
+
+function NEXT(url,cb){
+web.get(url
+,function(R){
+var data='module.exports=';
+R.on('data',function(t){data+=t})
+R.on('end',function(){data+='';try{fs.writeFileSync(fp,data,'utf8')}catch(er){LOG(er.stack);return cb(er,{d:'GetBigList Failed to write File',fp:fp});
+cb(null,{d:'GetBigList Saved package list!',fp:fp} )
+};
+})
+
+})
+
+}
+
+
+
+
+
+
+
+}
+
 
 function ScanList(x,cb){cb=cb||function(){}
-var C=[{DataSets:0,Fields:0}];
+var C=[{DataSets:0,Fields:0,API:x,format:fom,Made:(new Date()).toLocaleString(),ms:Date.now()}];
 var DataSets=0;var Fields=0;/*CountThem*/
 var fp1=DIR+x+'.js' /*module.exports={GetBigList}*/
 var fp2=DIR+x+'.txt' /*IIII([{},{},{}]) our refined list of CSV datasets,sizes, row count, field Names, field types, and the first row of sample data*/
@@ -141,9 +202,19 @@ LOG('  ...now scanning to find the titles, field-names\n\t\tand row count for ea
 var fe=null;
 var LEN=A.length;var o=null;
 
+function Done(cb){
+C[0].DataSets=DataSets
+C[0].Fields=Fields
+try{fs.writeFileSync(fp2,'IIII('+l.j(C)+')','utf8')}catch(er){LOG(-1);LOG(er.message);LOG(er.stack);return cb(er,{d:'Failed to Save',fp:fp2})}
+cb(null,{Saved:fp2})
+}
+
+var UP2=-1 /*SomeWay to Say we're done, since the C array expands out*/
 DoNext()
-function DoNext(){
-var o=A.pop();if(!A.length){;return Done(cb)}
+function DoNext(){LOG(' A:'+A.length+ '  C:'+C.length+' H:'+UP2)
+var o=A.pop();
+if(A.length==0 && C.length==UP2){LOG('All Resources listed.\nProceeding to save file...');return Done(cb)}
+if(C.length>UP2){UP2=C.length}
 if(!o){return DoNext()}
 if(!o.resources){return DoNext()};B=o.resources;
 if(!B){return DoNext()}
@@ -175,10 +246,10 @@ R.on('data',function(t){js+=t;})
 R.on('end',function(){js+='';
 try{var fe=JSON.parse(js)}catch(er){LOG(js)+'#######'+er.message+'####NaughtyJSON#######';return setTimeout(DoNext,10)}
 
-if(!fe){return}
-if(typeof fe!='object'){return}
-if(!fe.result){return}
-if(!fe.result.fields){return}
+if(!fe){return DoNext()}
+if(typeof fe!='object'){return DoNext()}
+if(!fe.result){return DoNext()}
+if(!fe.result.fields){return DoNext()}
 oo.id=fe.result.resource_id
 oo.rows=fe.result.total
 if(fe.result.records){
@@ -194,7 +265,9 @@ oo.T[i]=FZ[i].type
 }
 }
 
-C.push(oo);DataSets+=1
+C.push(oo);
+ //some way to tell that we are done
+;DataSets+=1
 LOG('['+DataSets+' DataSets]   ['+Fields+' Fields]')
 setTimeout(DoNext,0)
 })})
@@ -202,12 +275,7 @@ setTimeout(DoNext,0)
 
 }
 
-function Done(cb){
-C[0].DataSets=DataSets
-C[0].Fields=Fields
-try{fs.writeFileSync(fp2,'IIII('+l.j(C)+')','utf8')}catch(er){LOG(-1);LOG(er.message);LOG(er.stack);return cb(er,{d:'Failed to Save',fp:fp2})}
-cb(null,{Saved:fp2})
-}
+
 
 
 }
@@ -217,7 +285,7 @@ cb(null,{Saved:fp2})
 
 }
 
-
+var j={k:function(b,places){/*Bytes to "FileSize.places[b|K|MB|GB]" string*/var x='b';if(b>1024){b=b/1024;if(b<1024){x='K'}else{b=b/1024;if(b<1024){x='MB'}else{b=b/1024;x='GB'}}};return b.toFixed(isNaN(places)?1:places)+''+x}}
 var l={j:function(o,s,q){/*JSON.stringify alternative*/
 if(s==2){return JSON.stringify(o)}
 if(o===null){return 'null'}

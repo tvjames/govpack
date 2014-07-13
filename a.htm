@@ -1,22 +1,87 @@
-﻿<html><head><title>MaxProps</title>
+﻿<!doctype html><html><head><title></title>
 <style>
-BODY{font-family:Consolas,Verdana;color:#ddd;border:0}
+BODY{border:0px;font-family:Verdana}
+
+TD{border:1px solid gray;white-space:nowrap;text-align:center;}
+TABLE{border-collapse:collapse}
+.fr{border-style:none;font-size:120%;text-align:left}
+.th{background-color:silver;font-weight:900;font-size:120%}
+.dt{color:white}
+.dl{}
+.up{font-size:140%;text-align:left;background:#dcdcdc;padding-left:10px}
+#d3{background:orange;font-size:20pt;padding:4px;border:1px solid black}
+#d4{background:lime;font-size:20pt;padding:4px;border:1px solid black}
+a{width:100%;display:inline-block}
+a:hover{background:lime;}
 </style>
-<script>var YO=null
-function IIII(yo){YO=yo
-alert(YO.length)
-for(var i=0;i<YO.length;i++){o=YO[i]
-d1.innerHTML+='<div>'+top.JSON.stringify(o)+'</div>'
+<script>
+function IIII(yo){YO=yo;wow=YO[0];
+fom=wow.format.toString()
+FOM=fom.toUpperCase()
 }
 
+function init(){
+//h1.innerText=
+//JSON.stringify(YO[0]).replace(/"/g,'');
+d4.innerText=wow.Fields
+d2.innerText=wow.DataSets
+d3.innerText=wow.format
+d5.innerText=wow.API
+d6.innerText=wow.API
+
+//:77,:1328,
+var o=null;var tgs='';
+var C=[];
+var T=[];
+var R=[];
+
+var tb='';var L=0
+for(var i=1;i<YO.length;i++){o=YO[i]
+//tgs+='<div>'+i+'.'+JSON.stringify(o)+'</div>'
+
+if(!(o.C && o.T && o.R)){return}
+C=o.C
+T=o.T
+R=o.R
+
+L=C.length
+if(!L){return}
+tb='<table>\n<tr><td class=dl>'
+tb+='<a title="'+o.url+'" href="'+o.url+'" target="_blank" style="">'+fom+' ['+SZ(o.size)+']</a>&nbsp;&nbsp;&nbsp;'
+tb+='</td><td colspan="'+(C.length-1)+'" class=fr ><b>'+o.d+'</b>'
+tb+='</td></tr>'
+tb+='<tr>';for(var c=1;c<L;c++){tb+='<td class=th style="background:'+UC(C[c])+'">'+C[c]+'</td>'};tb+='</tr>'
+tb+='<tr class=dt >';for(var c=1;c<L;c++){tb+='<td style="background:'+UC(T[c])+'">'+T[c]+'</td>'};tb+='</tr>'
+tb+='<tr>';for(var c=1;c<L;c++){tb+='<td>'+R[C[c]]+'</td>'};tb+='</tr>'
+
+
+tb+='<tr><td class=up colspan="'+(C.length)+'"><b>'+o.rows+'<b> rows × '+o.cols+' columns </td></tr>'
+
+
+tb+='</table>'
+tgs+='<br><br>'+tb
 }
-function init(){}
+
+d1.innerHTML=tgs
+
+}
+
+
+var KEC={}
+function UC(s){if(!s){return '#dcdcdc'};if(KEC[s]){return KEC[s]};if(!s.length){return '#dcdcdc'};for(var i=0,h=0;i<s.length;h=s.charCodeAt(i++)+((h<<5)- h));for(var i= 0,c='#';i<3;c+=('00'+((h >>i++*8)&0xFF).toString(16)).slice(-2)); KEC[s]=c;return c;}
+function SZ(b,places){/*Bytes to "FileSize.places[b|K|MB|GB]" string*/var x='b';if(b>1024){b=b/1024;if(b<1024){x='K'}else{b=b/1024;if(b<1024){x='MB'}else{b=b/1024;x='GB'}}};return b.toFixed(isNaN(places)?1:places)+''+x}
+
 </script>
-<script src="F0.txt"></script>
+<script src="0.txt" ></script>
 
 </head>
-<body id="bd" onload="init()" scroll="no">
+<body id="bd" onload="init()">
 
+<h2>govpack {fetch:<span id="d5"></span>} 
+<br>govpack {filter:<span id="d6"></span>}
+<br> found <span id="d2"></span>&nbsp;<span id="d3"></span> datasets
+<br>containing <span id="d4"></span> fields</h2>
+<i style="font-size:18pt">as shown below...<br>with one row of sample data</i>
 <div id="d1"></div>
 
 
