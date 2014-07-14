@@ -6,11 +6,13 @@ http://hackerspace.govhack.org/content/npm-install-g-govpack-or-github-govpackgo
 available also on
 https://www.npmjs.org/package/govpack
 
+    npm install -f -g govpack
+
 ![image](http://hackerspace.govhack.org/sites/default/files/field/image/Screenshot%20%2812%29.png)
 
 *all YO data is belong to us*
 
-govpack is a tool to help explore all the datasets
+govpack is a tool to help download and explore all the CKAN datasets
 govpack is a command line tool (and node module) that seeks out the metadata
 for ALL available data sets on a given CKAN endpoint, namely
 
@@ -27,13 +29,12 @@ CLI Usage:
      govpack {filter:X} --> makes X.txt filtered JSONP IIII(filtered_csv_metadata)
      govpack {download:X} --> downloads ./CSV/1.csv, ./CSV/2.csv,,, ./CSV/111.csv
 
-so the commands need to be run in that order because they depend on the previous result
-results are saved in the same folder as index.js 
-ie in your global "./node_modules/govpack/index.js" folder
+the commands need to be run in that order because they depend on the previous result
+results are saved in the same folder as index.js ie in your global "./node_modules/govpack/index.js" folder
 downloaded "node_modules/govpack/format/1...n.format" files match up with the metadata in X.txt
 
 
-###At this early stage output paths will be improved
+###Output paths will be improved
 note: result paths will get changed to "node_modules/govpack/X/format/1...n.format" and have an option to
 put the results in a directory of your choice, which will be tidier/better for more ckans etc. With the
 X moved up to directory level, X.js and X.txt will have a common name like a.txt and b.txt for each.
@@ -44,9 +45,11 @@ X moved up to directory level, X.js and X.txt will have a common name like a.txt
     GP({filter:1,format:'XLS'},function(){console.log('Done!!')})
     //only tested in cli mode  
 
+####{filter:X ,format:'XYZ'}
 As an option you may wish to set the format for the filter step 
-to filter on someother resource filetype govpack {filter:0 ,format:'XXX'}
+to filter for some other filetype 
 
+    govpack {filter:0 ,format:'KML'}
     txt|xlsx|jpg|json|html|png|pdf|xls|cvs|gif|xml|
     rdf|hdf5|kml|pptx|docx|doc|odp|dat|jar|zip|shp|etc
 
@@ -62,7 +65,7 @@ search and autocomplete on the field names, this is now possible :-) also ckan
 has many GET verbs (including SQL) with the refined JSONP metatata one could 
 genarate other ajax calls, from a web page, to open up the data even further.
 
-###With the power of X (a simple integer values as a primary key)
+###With the power of X (simple integers as the primary key)
 
      govpack {filter:X,format:'XLS'}
 
@@ -75,11 +78,11 @@ presently in the source code they are listed as:
     CK[99]={url:'https://some_CKAN_action_endpoint/'} // ie add some more
     // this array will probably end up in a seperate config file
 
-#### BUT #2 (data.gov.au) is big and FAILS as a single request 
+#### NOW #2 (data.gov.au) is big and FAILS as a single request 
 
      the code has some in progress (INCOMPLETE) calls 
      to fetch it as several pagenated sub requests (todo)
-     namely GetBiggerList(x,cb){/*conglomerate pagegenated package lists*/}
+     namely GetBiggerList(x,cb){/*conglomerate page-enated package lists*/}
 
 #### AND npm is not making the govpack.cmd or bash script that I would like 
 
@@ -101,13 +104,13 @@ presently in the source code they are listed as:
     
 i tried editing govpack.cmd manually and it worked, so it's close 
     
-#### BUT it is not presently working as desired
+#### So it is not presently working as desired
 ###when the above fixes to package.json and  are made, 
 ###without having to reference the full paths, oh dear
 ####I mean, I would like it to work for other people as well
 
     "C:/A/N/node.exe" "C:/A/B/2/9/Ax/20/index.js" {download:0}
-    (works for me, lol) since your paths will vary
+    (works for me, lol, angry lol) since your paths will vary
 
 index.js has code that should make govpack to work as both a Command Line tool AND a module
 
@@ -117,10 +120,10 @@ index.js has code that should make govpack to work as both a Command Line tool A
 ####But as per the above a couple of fixes are required
 also todo, a.htm should generate A-Z, then AA,AB,AC,AD as the column heading (as in Excel, etc)
 I will apply http://stackoverflow.com/questions/9905533/convert-excel-column-alphabet-e-g-aa-to-number-e-g-25
-to that, soonish.
+to that, soonish. 
 
-after having run govpack {fetch:0} and govpack {filter:0}
-you may also call
+####Finally (get me the data)
+after having run govpack {fetch:0} and govpack {filter:0} you may also call
 
     govpack {download:0} 
 
