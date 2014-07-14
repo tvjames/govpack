@@ -1,7 +1,7 @@
 #govpack
 govpack is a tool to help download and explore CKAN datasets
 
-**all YO data is belong to us
+**all YO data is belong to us**
 ###made for GovHack Brisbane/Qld 2014
 http://hackerspace.govhack.org/content/npm-install-g-govpack-or-github-govpackgovpack
 
