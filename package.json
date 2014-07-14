@@ -4,7 +4,7 @@
   "description": "fetch, filter, and download CKAN (OpenData CSV metadata) as JSONP for use in a single page html app",
   "main": "index.js",
   "bin": {
-    "govpack": "./cli.txt"
+    "govpack": "./index.js"
   },
   "scripts": {
     "test": "{fetch:0}"
