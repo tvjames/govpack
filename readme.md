@@ -3,14 +3,16 @@ govpack is a tool to help download and explore CKAN datasets
 ###made for GovHack Brisbane/Qld 2014
 http://hackerspace.govhack.org/content/npm-install-g-govpack-or-github-govpackgovpack
 
-available also on
+also available on
 https://www.npmjs.org/package/govpack
 
     npm install -f -g govpack
 
+*all YO data is belong to us*
+
 ![image](http://hackerspace.govhack.org/sites/default/files/field/image/Screenshot%20%2812%29.png)
 
-*all YO data is belong to us*
+
 
 
 govpack is a command line tool (and node module) that seeks out the metadata
