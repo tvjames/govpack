@@ -40,14 +40,21 @@ downloaded "node_modules/govpack/format/1...n.format" files match up with the me
 
 ###Output paths will be improved
 note: result paths will get changed to "node_modules/govpack/X/format/1...n.format" and have an option to
-put the results in a directory of your choice, which will be tidier/better for more ckans etc. With the
+put the results in a directory of your choice, which will be tidier and better for more ckans etc. With the
 X moved up to directory level, X.js and X.txt will have a common name like a.txt and b.txt for each.
 
 ###From your node code: 
 
-    var GP=require('govpack');
-    GP({filter:1,format:'XLS'},function(){console.log('Done!!')})
-    //only tested in cli mode  
+    GP=require('govpack');
+    GP({fetch:0},function(){console.log('Done!!')})
+    .....which returns....->
+    Please be patient while we fetch from API#0
+    Downloading:
+    http://demo.ckan.org/api/3/action/current_package_list_with_resources
+    SavingAs:
+    C:/A/N/node_modules/govpack/0.js
+
+
 
 ####{filter:X ,format:'XYZ'}
 As an option you may wish to set the format for the filter step 
