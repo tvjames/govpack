@@ -46,11 +46,20 @@ try{eval('var o2=('+ar+')')}catch(er){LOG(er.message);OK=false};
 if(typeof o2=='object'){for(var p in o2){o3[p]=o2[p]}}
 }
 LOG('govpack is seeking out '+FOM+' dataset metadata')
-LOG('from any of a number of CKAN API\'s eg "node index.js {fetch:1}" "index.js {fetch:2}"')
-LOG('CKAN package_list_with_resources API endpoints')
-LOG('Use from the Command Line or as one of your npm node_modules.')
-LOG('Use in order: govpack {fetch:1}, then govpack {filter:1}, then govpack {download:1} ')
-LOG('Optional {filter:1, format:\'xlsx|ckml|rdf|odp|dat|etc\'} to change what to filter on')
+LOG('from some number X=0|1|2 of CKAN API endpoints (package_list_with_resources)') 
+LOG('Usage:') 
+LOG('govpack {fetch:X} --> makes X.js module.exports=BigPackageList') 
+LOG('govpack {filter:X} --> makes X.txt filtered JSONP IIII(filtered_csv_metadata)') 
+LOG('govpack {download:X} --> downloads ./CSV/1.csv, ./CSV/2.csv,,, ./CSV/n.csv ')
+LOG('downloaded '+DIR+'/format/1...n.format files match up with the metadata in X.txt')
+LOG('Use from the Command Line or as one of your npm node_modules')
+LOG('Look for the results in the node_modules/govpack/index.js folder, ie ')
+LOG(DIR)
+LOG('Optionally specify a filetype {format:\'XYZ\'} in the filter step') 
+LOG('govpack {filter:1, format:\'xlsx|ckml|rdf|odp|dat|etc\'}')
+LOG('the default filter format is CSV')
+LOG('govpack {filter:1, format:\'csv\'}')
+
 if(OK){init(o3)}else{LOG('Fix json command line argument and retry');process.exit()}
 }
 else{module.exports=init

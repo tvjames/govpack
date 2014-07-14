@@ -1,9 +1,11 @@
 {
   "name": "govpack",
-  "version": "0.0.2",
-  "description": "fetch, filter, CKAN (OpenData CSV resources) as JSONP for use in a sinhgle pahe html apps",
+  "version": "0.0.10",
+  "description": "fetch, filter, and download CKAN (OpenData CSV metadata) as JSONP for use in a single page html app",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": {
+    "govpack": "./cli.txt"
+  },
   "scripts": {
     "test": "{fetch:0}"
   },

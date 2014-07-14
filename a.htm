@@ -53,7 +53,7 @@ tb+='</td><td colspan="'+(C.length-1)+'" class=fr ><b>'+o.d+'</b>'
 tb+='</td></tr>'
 
 
-tb+='<tr>';for(var c=1;c<L;c++){tb+='<td class=hh >'+String.fromCharCode(64+c)+'</td>'};tb+='</tr>'
+tb+='<tr>';for(var c=1;c<L;c++){tb+='<td class=hh >'+ABC(c)+'</td>'};tb+='</tr>'
 
 
 tb+='<tr>';for(var c=1;c<L;c++){tb+='<td class=th style="background:'+UC(C[c])+'">'+C[c]+'</td>'};tb+='</tr>'
@@ -76,6 +76,25 @@ d1.innerHTML=tgs
 var KEC={}
 function UC(s){if(!s){return '#dcdcdc'};if(KEC[s]){return KEC[s]};if(!s.length){return '#dcdcdc'};for(var i=0,h=0;i<s.length;h=s.charCodeAt(i++)+((h<<5)- h));for(var i= 0,c='#';i<3;c+=('00'+((h >>i++*8)&0xFF).toString(16)).slice(-2)); KEC[s]=c;return c;}
 function SZ(b,places){/*Bytes to "FileSize.places[b|K|MB|GB]" string*/var x='b';if(b>1024){b=b/1024;if(b<1024){x='K'}else{b=b/1024;if(b<1024){x='MB'}else{b=b/1024;x='GB'}}};return b.toFixed(isNaN(places)?1:places)+''+x}
+
+
+
+function ABC(columnNumber){
+//http://stackoverflow.com/questions/181596/how-to-convert-a-column-number-eg-127-into-an-excel-column-eg-aa
+var dividend = columnNumber;
+    var columnName ='';
+    var modulo=0;
+
+    while (dividend > 0)
+    {
+        modulo = (dividend - 1) % 26;
+        columnName = String.fromCharCode(65+modulo) + columnName;
+        dividend = parseInt((dividend - modulo) / 26);
+    } 
+
+    return columnName;
+}
+
 
 </script>
 <script src="0.txt" ></script>
