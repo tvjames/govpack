@@ -11,29 +11,41 @@ https://www.npmjs.org/package/govpack
 *all YO data is belong to us*
 
 govpack is a tool to help explore all the datasets
-
-govpack is a command line tool that seeks out the metadata
-for ALL available data sets on a given CKAN endpoint, like
+govpack is a command line tool (and node module) that seeks out the metadata
+for ALL available data sets on a given CKAN endpoint, namely
 
 0 http://demo.ckan.org/api/3/action/current_package_list_with_resources
 
-1 https://data.qld.gov.au/3/action/
+1 https://data.qld.gov.au/3/action/current_package_list_with_resources
 
-2 https://data.gov.au/api/3/action/
+2 https://data.gov.au/api/3/action/current_package_list_with_resources
+
 
 CLI Usage:
 
-     govpack {fetch:0}
-     govpack {filter:0}
+     govpack {fetch:X} --> makes X.js module.exports=BigPackageList
+     govpack {filter:X} --> makes X.txt filtered JSONP IIII(filtered_csv_metadata)
+     govpack {download:X} --> downloads ./CSV/1.csv, ./CSV/2.csv,,, ./CSV/111.csv
 
-OR from your node code: 
+so the commands need to be run in that order because they depend on the previous result
+results are saved in the same folder as index.js 
+ie in your global "./node_modules/govpack/index.js" folder
+downloaded "node_modules/govpack/format/1...n.format" files match up with the metadata in X.txt
+
+
+###At this early stage output paths will be improved
+note: result paths will get changed to "node_modules/govpack/X/format/1...n.format" and have an option to
+put the results in a directory of your choice, which will be tidier/better for more ckans etc. With the
+X moved up to directory level, X.js and X.txt will have a common name like a.txt and b.txt for each.
+
+###From your node code: 
 
     var GP=require('govpack');
     GP({filter:1,format:'XLS'},function(){console.log('Done!!')})
     //only tested in cli mode  
 
-As an option you may wish to set the filetype for the filter step 
-to filter on someother resource type {filter:0 ,format:'XXX'}
+As an option you may wish to set the format for the filter step 
+to filter on someother resource filetype govpack {filter:0 ,format:'XXX'}
 
     txt|xlsx|jpg|json|html|png|pdf|xls|cvs|gif|xml|
     rdf|hdf5|kml|pptx|docx|doc|odp|dat|jar|zip|shp|etc
@@ -41,33 +53,82 @@ to filter on someother resource type {filter:0 ,format:'XXX'}
 would all be okay format:'XYZ' (case insensitive) values to try 
 but by far CSV is the most popular default.
 
-###from the command line:
+#a.htm 
+a.htm is the page that uses the JSONP 0.txt, and displays the filtered metadata  
+it contains links to the actual CSV files, file size (where available), 
+table headings, field names, field types, column and row counts
+and should be useful to look at as a sample of the final ouput. I wanted to do
+search and autocomplete on the field names, this is now possible :-) also ckan
+has many GET verbs (including SQL) with the refined JSONP metatata one could 
+genarate other ajax calls, from a web page, to open up the data even further.
 
-     node.exe index.js {filter:1,format:'XLS'}
+###With the power of X (a simple integer values as a primary key)
 
-The ckan dataset catalog endpoints we are fetching from 
-{fetch:0|1|2} etc, can be added to, in the source code:
+     govpack {filter:X,format:'XLS'}
 
-    CK[0]={url:'http://demo.ckan.org/api/3/action/'}
-    CK[1]={url:'https://data.qld.gov.au/api/3/action/'}
-    CK[2]={url:'https://data.gov.au/api/3/action/'}    
-####2 is big  and FAILS as a single request 
+more ckan dataset catalog endpoints can be added, 
+presently in the source code they are listed as:
 
-     note: the code has some in progress INCOMPLETE :=( calls 
+    CK[0]={url:'http://demo.ckan.org/api/3/action/'}  // the demo data set as used by the CKAN docs
+    CK[1]={url:'https://data.qld.gov.au/api/3/action/'} //the state catalog of datasets
+    CK[2]={url:'https://data.gov.au/api/3/action/'}    //the national catalog of datasets 
+    CK[99]={url:'https://some_CKAN_action_endpoint/'} // ie add some more
+    // this array will probably end up in a seperate config file
+
+#### BUT #2 (data.gov.au) is big and FAILS as a single request 
+
+     the code has some in progress (INCOMPLETE) calls 
      to fetch it as several pagenated sub requests (todo)
-     also todo is howto make npm drop an sh +govpack.cmd
-     in the common bin folder ??
+     namely GetBiggerList(x,cb){/*conglomerate pagegenated package lists*/}
 
+#### AND npm is not making the govpack.cmd or bash script that I would like 
+
+     also TODO is howto make npm drop an sh +govpack.cmd
+     in the common bin folder ?? I put bin:{govpack:"./index.js"}
+     (and other tried things) in the package.json BUT npm adds only
+     govpack.cmd =
+     "%~dp0\node_modules\govpack\index.js"   %*
+     
+     and not the prefered 
+     
+     govpack.cmd =
+     
+     @IF EXIST "%~dp0\node.exe" (
+     "%~dp0\node.exe"  "%~dp0\node_modules\govpack\index.js" %*
+     ) ELSE (
+     node  "%~dp0\node_modules\govpack\index.js" %*
+    )
     
-CK[99]={url:'https://some_CKAN_action_endpoint/'} // ie add some more
-  
+i tried editing govpack.cmd manually and it worked, so it's close 
+    
+#### BUT it is not presently working as desired
+###when the above fixes to package.json and  are made, 
+###without having to reference the full paths, oh dear
+####I mean, I would like it to work for other people as well
+
+    "C:/A/N/node.exe" "C:/A/B/2/9/Ax/20/index.js" {download:0}
+    (works for me, lol) since your paths will vary
+
+index.js has code that should make govpack to work as both a Command Line tool AND a module
+
+    if(require.main === module){/*Use from the CommandLine*/}
+    else{module.exports=init/*work as a module*/}
+
+####But as per the above a couple of fixes are required
+also todo, a.htm should generate A-Z, then AA,AB,AC,AD as the column heading (as in Excel, etc)
+I will apply http://stackoverflow.com/questions/9905533/convert-excel-column-alphabet-e-g-aa-to-number-e-g-25
+to that, soonish.
+
+after having run govpack {fetch:0} and govpack {filter:0}
 you may also call
 
-    govpack {download:0|1|2} 
+    govpack {download:0} 
 
 to download the filtered CSV file set from to disc
 
-###more endpoints/ fixes and addtions are wecolme
+
+
+###more endpoints/fixes and addtions are wecolme
 
 email to
 govpack@gmail.com
