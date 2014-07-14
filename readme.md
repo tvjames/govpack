@@ -3,7 +3,7 @@ govpack is a tool to help download and explore CKAN datasets
 
 _all YO data is belong to us_
 ###made for GovHack Brisbane/Qld 2014
-######help wanted status and fixes required detailed below
+
 http://hackerspace.govhack.org/content/npm-install-g-govpack-or-github-govpackgovpack
 
 also available on
@@ -12,6 +12,7 @@ https://www.npmjs.org/package/govpack
     npm install -f -g govpack
 
 
+######help wanted, status and fixes required detailed below...
 
 ![image](http://hackerspace.govhack.org/sites/default/files/field/image/Screenshot%20%2812%29.png)
 
