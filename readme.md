@@ -1,5 +1,5 @@
 #govpack
-
+govpack is a tool to help download and explore CKAN datasets
 ###made for GovHack Brisbane/Qld 2014
 http://hackerspace.govhack.org/content/npm-install-g-govpack-or-github-govpackgovpack
 
@@ -12,7 +12,7 @@ https://www.npmjs.org/package/govpack
 
 *all YO data is belong to us*
 
-govpack is a tool to help download and explore all the CKAN datasets
+
 govpack is a command line tool (and node module) that seeks out the metadata
 for ALL available data sets on a given CKAN endpoint, namely
 
