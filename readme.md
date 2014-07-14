@@ -68,13 +68,16 @@ would all be okay format:'XYZ' (case insensitive) values to try
 but by far CSV is the most popular default.
 
 #a.htm 
-a.htm is the page that uses the JSONP 0.txt, and displays the filtered metadata  
-it contains links to the actual CSV files, file size (where available), 
-table headings, field names, field types, column and row counts
-and should be useful to look at as a sample of the final ouput. I wanted to do
-search and autocomplete on the field names, this is now possible :-) also ckan
-has many GET verbs (including SQL) with the refined JSONP metatata one could 
-genarate other ajax calls, from a web page, to open up the data even further.
+a.htm is the page that uses the JSONP 0.txt, and displays the filtered metadata it contains 
+
+* links to the actual CSV files, 
+* CSV file size (where available)
+* table heading/description
+* field names 
+* field types
+* column and row counts
+
+a.htm should be useful to look at as a sample of the final ouput. I wanted to do search and autocomplete on the field names, this is now possible :-) also CKAN has many GET verbs (including one that does SQL queries) so with our refined JSONP metatata one could genarate other ajax calls, from a web page, to open up the data even further.
 
 ###With the power of X (simple integers as the primary key)
 
