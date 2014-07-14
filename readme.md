@@ -150,7 +150,7 @@ to download the filtered CSV file set from to disc
 
 | CSV Tables    | Are           | Cool  |
 | ------------- |:-------------:| -----:|
-| but whats     | inside        | $1600 |
+| but whats     | **inside**    | $1600 |
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
 
