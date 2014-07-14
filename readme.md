@@ -16,9 +16,8 @@ https://www.npmjs.org/package/govpack
 
 
 govpack is a command line tool (and node module) that seeks out the metadata
-for ALL available data sets on a given CKAN endpoint
+for ALL available data sets on a given CKAN endpoint, namely.... (X=0|1|2)
 
-mainly X=0|1|2
 
 0 http://demo.ckan.org/api/3/action/current_package_list_with_resources
 
